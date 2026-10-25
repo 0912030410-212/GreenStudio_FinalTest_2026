@@ -1,0 +1,14 @@
+/* 公共基础样式。个人样式请直接写在自己的 HTML 中，避免影响其他同学。 */
+:root { font-family: "Segoe UI", "Microsoft YaHei", sans-serif; color: #263b32; background: #f8faf5; }
+* { box-sizing: border-box; }
+body { --accent: #39785b; margin: 0; min-height: 260px; padding: 20px 24px; position: relative; overflow-wrap: anywhere; }
+body::before { content: ""; position: absolute; width: 108px; height: 108px; border-radius: 50%; background: var(--accent); opacity: .055; top: -40px; right: 0; pointer-events: none; }
+.eyebrow { margin: 0 0 8px; color: var(--accent); font-size: 10px; font-weight: 700; line-height: 14px; letter-spacing: 1.8px; }
+h2 { margin: 0; font-size: 24px; font-weight: 650; line-height: 1.3; letter-spacing: -.5px; }
+.class-name { margin: 3px 0 0; color: #778278; font-size: 12px; line-height: 18px; }
+.intro { margin: 15px 0 12px; color: #5d6b61; font-size: 13px; line-height: 21px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.tags li { padding: 4px 8px; border-radius: 4px; background: #eaf0e7; color: #64745f; font-size: 11px; line-height: 15px; }
+.goal { margin: 14px 0 0; color: #7c877b; font-size: 11px; line-height: 18px; }
+.goal strong { color: var(--accent); font-weight: 600; margin-right: 5px; }
+@media (max-width: 340px) { body { padding: 20px; } }

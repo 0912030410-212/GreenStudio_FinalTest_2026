@@ -1,208 +1,101 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>绿荫测试_02</title>
-  <style>
-    :root { color-scheme: light; --ink:#254c49; --paper:#f6f3e9; }
-    * { box-sizing:border-box; }
-    body { margin:0; min-height:100svh; background:var(--paper); color:var(--ink); font-family:"Microsoft YaHei","PingFang SC",sans-serif; }
-    .page { max-width:1440px; margin:auto; padding:30px 6vw 24px; }
-    header { display:flex; justify-content:space-between; align-items:center; gap:20px; }
-    .brand { font-size:12px; font-weight:700; letter-spacing:3px; display:flex; align-items:center; gap:12px; }
-    .brand svg { width:29px; height:29px; }
-    .issue { font-size:11px; letter-spacing:2px; opacity:.6; }
-    .intro { text-align:center; position:relative; z-index:1; margin:43px 0 -44px; pointer-events:none; }
-    .eyebrow { font-size:11px; letter-spacing:5px; color:#648681; }
-    h1 { font-size:clamp(30px,4vw,51px); letter-spacing:5px; font-weight:600; margin:12px 0; }
-    .intro p { margin:0; font-size:13px; letter-spacing:2px; opacity:.65; }
-    .scene { display:block; width:100%; max-height:70vh; min-height:330px; overflow:visible; }
-    .controls { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:22px; margin-top:-18px; position:relative; }
-    button { border:0; font:inherit; cursor:pointer; }
-    .play { display:flex; align-items:center; gap:10px; padding:13px 23px; border-radius:30px; background:var(--ink); color:#fffdf2; font-size:12px; letter-spacing:1px; box-shadow:0 5px 12px #254c4912; }
-    .play:hover { background:#396b64; }
-    .play:focus-visible,.speed button:focus-visible { outline:3px solid #e4a35f; outline-offset:4px; }
-    .speed { display:flex; gap:4px; padding:5px; border:1px solid #254c4920; border-radius:25px; }
-    .speed button { background:transparent; color:#66817a; border-radius:20px; padding:8px 12px; font-size:12px; }
-    .speed button[aria-pressed="true"] { background:#e1e9dc; color:var(--ink); }
-    footer { display:flex; justify-content:space-between; align-items:center; margin-top:34px; border-top:1px solid #254c491c; padding-top:18px; color:#77918a; font-size:10px; letter-spacing:2px; }
-    .dot { display:inline-block; width:6px; height:6px; background:#dc9258; border-radius:50%; margin-right:8px; }
-    @media(max-width:600px) { .page{padding:22px 5vw;} .issue{display:none;} .intro{margin:40px 0 -15px;} .intro p{font-size:11px;letter-spacing:1px;} .scene{min-height:290px;max-height:none;} .controls{margin-top:10px;gap:12px;} footer{line-height:1.8;gap:20px;font-size:9px;letter-spacing:1px;} }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="15 位同学共同完成的开发项目：排序编程、自我介绍与 Git 协作。">
+  <title>GreenExplore · 一起开发</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%23248064'/%3E%3Cpath d='m15 12-8 8 8 8m10-16 8 8-8 8' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+  <script src="sorting.js" defer></script>
 </head>
 <body>
-<main class="page">
-  <header>
-    <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="none" stroke="currentColor"/><path d="M6 20 Q13 9 17 17 Q21 10 26 12 M11 24 L17 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>慢慢骑行俱乐部</div>
-    <span class="issue">LITTLE RIDES / NO. 001</span>
+  <header class="site-header">
+    <a class="brand" href="#team"><span class="brand-icon" aria-hidden="true">&lt;/&gt;</span><span>GreenExplore<small>CLASSROOM PROJECT</small></span></a>
+    <nav aria-label="项目导航">
+      <a href="#team" data-view="team" aria-current="page">成员介绍<span>15</span></a>
+      <a href="#sorting" data-view="sorting">排序编程</a>
+    </nav>
+    <a class="header-guide" href="#workflow">提交流程 <span aria-hidden="true">↗</span></a>
   </header>
-  <section class="intro">
-    <div class="eyebrow">A PERFECT DAY FOR A LITTLE RIDE</div>
-    <h1>鹈鹏的兜风日</h1>
-    <p>让风带走烦恼，沿着好心情一直骑。</p>
-  </section>
-  <svg class="scene" viewBox="0 0 1200 740" role="img" aria-labelledby="sceneTitle sceneDesc">
-    <title id="sceneTitle">戴着绿色帽子和橙色围巾的鹈鹏骑自行车</title>
-    <desc id="sceneDesc">一只长嘴、圆肚子的可爱鹈鹏骑着珊瑚橙色自行车。双脚交替踩踏板，车轮转动，围巾随风飘动，远处的云朵与路边植物缓缓向后移动。可用下方按钮暂停或改变速度。</desc>
-    <defs>
-      <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#e4eee3"/><stop offset="1" stop-color="#eff0df"/></linearGradient>
-      <linearGradient id="feather" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#fffef5"/><stop offset="1" stop-color="#e7e5d3"/></linearGradient>
-      <linearGradient id="beak" x2="0" y2="1"><stop stop-color="#f5c976"/><stop offset="1" stop-color="#e9ab60"/></linearGradient>
-      <clipPath id="landClip"><rect x="95" y="122" width="1010" height="560" rx="225"/></clipPath>
-      <g id="cloud" fill="#fffdf2"><path d="M0 24 C-7 9 12 0 26 8 C35-15 70-9 75 10 C101 0 121 13 115 26 Z"/></g>
-      <g id="sprig" fill="none" stroke="#809c79" stroke-width="3" stroke-linecap="round"><path d="M0 0 Q3-19-7-35 M0-8 Q-13-9-16-20 M0-13 Q14-18 13-28"/></g>
-      <g id="wheel">
-        <circle r="108" fill="#f5f0df" fill-opacity=".45" stroke="#284c49" stroke-width="13"/>
-        <circle r="97" fill="none" stroke="#c1c9b5" stroke-width="3"/>
-        <g class="spokes" stroke="#8fa79b" stroke-width="2">
-          <path d="M-94 0H94 M0-94V94 M-66.5-66.5L66.5 66.5 M-66.5 66.5L66.5-66.5 M-86.8-36L86.8 36 M-36-86.8L36 86.8 M-86.8 36L86.8-36 M-36 86.8L36-86.8"/>
-          <path d="M38-83L53-74" stroke="#e59a59" stroke-width="6" stroke-linecap="round"/>
-        </g>
-        <circle r="11" fill="#f4d994" stroke="#284c49" stroke-width="4"/>
-      </g>
-    </defs>
-    <g clip-path="url(#landClip)">
-      <rect x="95" y="122" width="1010" height="560" fill="url(#sky)"/>
-      <circle cx="889" cy="241" r="54" fill="#f1ce7e"/>
-      <circle cx="889" cy="241" r="68" fill="none" stroke="#f1ce7e" stroke-opacity=".3"/>
-      <g id="clouds"><use href="#cloud" x="190" y="246"/><use href="#cloud" x="910" y="331" transform="translate(80 50) scale(.8)"/><use href="#cloud" x="650" y="149" transform="translate(340 60) scale(.55)"/></g>
-      <path d="M50 498 Q210 307 402 469 Q609 286 806 444 Q1021 309 1200 471 V700 H50Z" fill="#cedcc5"/>
-      <path d="M0 530 Q166 430 350 515 Q596 390 791 517 Q1008 421 1260 525 V720H0Z" fill="#b7cbb0"/>
-      <path d="M30 596 Q272 509 537 577 Q836 513 1200 578 V740H30Z" fill="#d7dfbe"/>
-      <path d="M20 651 Q505 584 1210 640 V740H20Z" fill="#efe4c9"/>
-      <path d="M110 647 Q600 602 1120 644" fill="none" stroke="#f9f2df" stroke-width="4"/>
-      <g id="plants">
-        <use href="#sprig" x="210" y="610"/><use href="#sprig" x="985" y="594"/><use href="#sprig" x="1130" y="622"/><use href="#sprig" x="70" y="598"/>
-        <g fill="#f7f0d7"><ellipse cx="174" cy="661" rx="16" ry="3"/><ellipse cx="924" cy="673" rx="20" ry="3"/><ellipse cx="1060" cy="651" rx="11" ry="2"/></g>
-        <g stroke="#95ab85" stroke-width="2" stroke-linecap="round"><path d="M323 596l5-9m4 10 5-5M877 610l-3-8m9 7 5-8"/></g>
-      </g>
-    </g>
-    <ellipse cx="611" cy="658" rx="272" ry="13" fill="#5c7668" opacity=".12"/>
-    <g id="rider">
-      <!-- The far leg is drawn behind the bicycle. -->
-      <path id="farLeg" d="M555 365L571 447L550 529" fill="none" stroke="#c68d4d" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
-      <g transform="translate(420 539)"><g id="rearWheel"><use href="#wheel"/></g></g>
-      <g transform="translate(800 539)"><g id="frontWheel"><use href="#wheel"/></g></g>
-      <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M325 486A111 111 0 0 1 499 457 M718 460A111 111 0 0 1 890 474" stroke="#f0bb86" stroke-width="7"/>
-        <path d="M420 539L523 390L588 539ZM523 390L742 390L588 539 M742 390L800 539" stroke="#9e5946" stroke-width="13"/>
-        <path d="M420 539L523 390L588 539ZM523 390L742 390L588 539 M742 390L800 539" stroke="#df8261" stroke-width="8"/>
-        <path d="M523 390L512 362 M742 390L721 330Q720 319 736 319H760" stroke="#355754" stroke-width="9"/>
-        <path d="M747 319H774" stroke="#ba8252" stroke-width="11"/>
-        <path d="M475 358Q508 348 547 359" stroke="#2b4a46" stroke-width="14"/>
-        <path d="M420 539L584 520Q611 520 611 539Q611 558 584 558L420 550" stroke="#749084" stroke-width="3"/>
-      </g>
-      <circle cx="588" cy="539" r="25" fill="#ede3c8" stroke="#355754" stroke-width="5"/>
-      <g id="crank" stroke="#355754" stroke-width="7" stroke-linecap="round"><path d="M545 539H631"/></g>
-      <circle cx="588" cy="539" r="7" fill="#df8261"/>
-      <g id="farPedal"><rect x="-18" y="-4" width="36" height="8" rx="3" fill="#355754"/></g>
-      <!-- Tail, soft body and long pelican neck. -->
-      <path d="M483 310Q445 292 415 281Q413 301 437 324L404 310Q423 347 474 350Z" fill="#ecebda" stroke="#365953" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M473 285C482 263 523 257 556 254C585 250 590 223 592 202C594 175 615 162 640 171C676 182 678 220 657 243C641 262 656 289 642 322C627 362 573 382 520 364C477 350 459 322 473 285Z" fill="url(#feather)" stroke="#365953" stroke-width="3.5"/>
-      <path d="M609 249Q616 278 602 301" fill="none" stroke="#d2d8c5" stroke-width="5" stroke-linecap="round"/>
-      <path d="M483 316Q499 350 538 353" fill="none" stroke="#d6dbc8" stroke-width="3" stroke-linecap="round"/>
-      <path id="scarfTail" d="M599 251Q561 241 539 259L500 245L512 269Q552 278 602 261Z" fill="#de8059" stroke="#b8674b" stroke-width="2"/>
-      <path d="M594 244Q620 257 652 241L653 255Q623 270 594 258Z" fill="#e68b60" stroke="#b8674b" stroke-width="2"/>
-      <path d="M599 252Q588 258 596 269Q609 272 612 260Z" fill="#f0a171"/>
-      <!-- One wing rests on the handlebar. -->
-      <path d="M522 280C548 269 565 280 587 297Q630 326 727 309Q741 307 742 318Q737 332 711 333C648 353 576 333 546 318Q532 310 524 303" fill="#f5f3e6" stroke="#365953" stroke-width="3.5" stroke-linecap="round"/>
-      <path d="M539 295Q560 311 579 313 M547 286Q564 302 580 303" fill="none" stroke="#ccd4bf" stroke-width="3" stroke-linecap="round"/>
-      <path d="M650 207Q709 201 786 228Q802 235 785 240L651 237Z" fill="#efb662" stroke="#365953" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M651 223L785 238Q715 279 676 251Q658 240 651 223Z" fill="url(#beak)" stroke="#365953" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M675 241Q709 257 748 244" fill="none" stroke="#d69550" stroke-width="2" stroke-linecap="round"/>
-      <ellipse cx="638" cy="208" rx="5" ry="7" fill="#264b47" id="eye"/>
-      <circle cx="639.5" cy="206" r="1.6" fill="#fff"/>
-      <path d="M630 191Q638 187 644 192" fill="none" stroke="#365953" stroke-width="3" stroke-linecap="round"/>
-      <ellipse cx="627" cy="226" rx="11" ry="6" fill="#e9b59a" opacity=".7"/>
-      <g transform="rotate(-9 622 175)">
-        <path d="M593 176Q589 136 621 136Q652 136 654 176Z" fill="#507c66" stroke="#365953" stroke-width="3"/>
-        <path d="M594 163Q624 158 650 164L654 176L593 176Z" fill="#739179"/>
-        <path d="M583 178Q628 165 667 178" fill="none" stroke="#365953" stroke-width="9" stroke-linecap="round"/>
-        <path d="M610 148Q616 143 623 145" fill="none" stroke="#91ab8c" stroke-width="3" stroke-linecap="round"/>
-      </g>
-      <path id="nearLeg" d="M551 360L609 438L631 539" fill="none" stroke="#e6b364" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M537 350Q548 361 568 357" fill="none" stroke="#f4f2e4" stroke-width="15" stroke-linecap="round"/>
-      <g id="nearFoot"><path d="M-10-7Q5-5 19-4L28 2Q8 10-15 3Z" fill="#ecbb6e" stroke="#af824c" stroke-width="2" stroke-linejoin="round"/><rect x="-17" y="6" width="42" height="8" rx="3" fill="#355754"/></g>
-      <g fill="none" stroke="#6b8c7c" stroke-width="3" stroke-linecap="round" opacity=".6"><path d="M387 364h-35M397 378h-22M405 391h-40"/></g>
-    </g>
-    <g transform="translate(918 475)" fill="#426c5c"><path d="M0 0q8-15 17 0q9-15 17 0" fill="none" stroke="#426c5c" stroke-width="2.5" stroke-linecap="round"/></g>
-    <text x="600" y="711" text-anchor="middle" fill="#93a18e" font-family="Georgia,serif" font-style="italic" font-size="14" letter-spacing="2">Life is lovely in the slow lane.</text>
-  </svg>
-  <div class="controls" role="group" aria-label="动画控制">
-    <button class="play" id="play" type="button" aria-label="暂停动画"><span id="playIcon" aria-hidden="true">Ⅱ</span><span id="playText">暂停一下</span></button>
-    <div class="speed" role="group" aria-label="骑行速度">
-      <button type="button" data-speed="0.5" aria-pressed="false">慢悠悠</button>
-      <button type="button" data-speed="1" aria-pressed="true">去兜风</button>
-      <button type="button" data-speed="1.7" aria-pressed="false">追上风</button>
-    </div>
-  </div>
-  <footer><span><i class="dot"></i>今日路线：从这里，到开心那里</span><span>纯 SVG 绘制 · 把日子骑成一首小诗</span></footer>
-</main>
-<script>
-  (() => {
-    const $ = id => document.getElementById(id);
-    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-    let playing = !reducedMotion.matches, speed = 1, time = 0, last = null;
-    const play = $('play');
-    function updateButton() {
-      $('playIcon').textContent = playing ? 'Ⅱ' : '▶';
-      $('playText').textContent = playing ? '暂停一下' : '继续兜风';
-      play.setAttribute('aria-label', playing ? '暂停动画' : '播放动画');
-    }
-    play.addEventListener('click', () => { playing = !playing; updateButton(); });
-    reducedMotion.addEventListener('change', event => { if (event.matches) { playing = false; updateButton(); } });
-    document.querySelectorAll('[data-speed]').forEach(button => {
-      button.addEventListener('click', () => {
-        speed = Number(button.dataset.speed);
-        document.querySelectorAll('[data-speed]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-      });
-    });
-    function legPath(hip, foot, bend) {
-      // Two equal-length bones keep the knee bending naturally as the pedal turns.
-      const dx = foot.x - hip.x, dy = foot.y - hip.y;
-      const distance = Math.hypot(dx,dy), length = 121;
-      const offset = Math.sqrt(Math.max(0, length * length - distance * distance / 4));
-      const knee = { x:(hip.x+foot.x)/2 + dy/distance*offset*bend, y:(hip.y+foot.y)/2 - dx/distance*offset*bend };
-      return `M${hip.x} ${hip.y}L${knee.x} ${knee.y}L${foot.x} ${foot.y}`;
-    }
-    function draw(t) {
-      const angle = t * 2.6;
-      const near = {x:588+43*Math.cos(angle),y:539+43*Math.sin(angle)};
-      const far = {x:588-43*Math.cos(angle),y:539-43*Math.sin(angle)};
-      $('nearLeg').setAttribute('d', legPath({x:551,y:360},near,1));
-      $('farLeg').setAttribute('d', legPath({x:557,y:361},far,1));
-      $('nearFoot').setAttribute('transform',`translate(${near.x} ${near.y-8})`);
-      $('farPedal').setAttribute('transform',`translate(${far.x} ${far.y})`);
-      $('crank').setAttribute('transform',`rotate(${angle*180/Math.PI} 588 539)`);
-      const wheel = `rotate(${angle*180/Math.PI*1.7})`;
-      $('rearWheel').setAttribute('transform',wheel);
-      $('frontWheel').setAttribute('transform',wheel);
-      $('rider').setAttribute('transform',`translate(0 ${Math.sin(angle*2)*1.3})`);
-      const wave = Math.sin(t*5)*7;
-      $('scarfTail').setAttribute('d',`M599 251Q561 ${241+wave} 539 ${259+wave}L500 ${245-wave/2}L512 ${269-wave/2}Q552 ${278+wave} 602 261Z`);
-      $('clouds').setAttribute('transform',`translate(${-((t*7)%1300)} 0)`);
-      // Clone each moving strip once so the scenery loops without an empty interval.
-      $('cloudsCopy').setAttribute('transform',`translate(${1300-((t*7)%1300)} 0)`);
-      $('plants').setAttribute('transform',`translate(${-((t*105)%1200)} 0)`);
-      $('plantsCopy').setAttribute('transform',`translate(${1200-((t*105)%1200)} 0)`);
-      const blink = t % 5.8;
-      $('eye').setAttribute('ry',blink>5.58 && blink<5.73 ? 1 : 7);
-    }
-    ['clouds','plants'].forEach(id => {
-      const original = $(id), copy = original.cloneNode(true);
-      copy.id = id+'Copy'; original.after(copy);
-    });
-    function frame(now) {
-      if (last !== null && playing && !document.hidden) time += Math.min((now-last)/1000,.05)*speed;
-      last = now;
-      draw(time);
-      requestAnimationFrame(frame);
-    }
-    document.addEventListener('visibilitychange', () => { last = null; });
-    updateButton();
-    requestAnimationFrame(frame);
-  })();
-</script>
+
+  <main class="container">
+    <section class="identity-bar" aria-label="选择开发成员">
+      <div><span class="eyebrow">YOUR WORKSPACE</span><strong>先找到属于你的那一部分。</strong></div>
+      <div class="identity-actions">
+        <label class="sr-only" for="memberSelect">选择你的班级和姓名</label>
+        <select id="memberSelect"><option value="">选择你的班级和姓名</option></select>
+        <button class="button button-primary" id="locateMemberButton" type="button" disabled>定位我的区域 <span aria-hidden="true">↓</span></button>
+      </div>
+    </section>
+
+    <section id="teamTask" aria-labelledby="teamTitle">
+      <div class="hero">
+        <div><div class="eyebrow">15 PEOPLE. ONE SHARED PROJECT.</div><h1 id="teamTitle">15 位同学，一起开发<span class="accent">。</span></h1><p>每个人完成一份自我介绍，每一次提交让页面更完整。<br>从拉取代码到提交审核，一起走完真实的项目开发流程。</p></div>
+        <div class="hero-number" aria-label="15 位开发者"><strong>15<span>↗</span></strong><span>个独立区域，一起完成</span></div>
+      </div>
+      <div class="project-steps" aria-label="开发步骤"><span><b>01</b>拉取仓库</span><i>→</i><span><b>02</b>本地开发</span><i>→</i><span><b>03</b>验证效果</span><i>→</i><span><b>04</b>提交 PR 审核</span></div>
+      <div class="section-heading"><div><span class="eyebrow">PART 02 / FRONTEND COLLABORATION</span><h2>认识每一位，写代码的人。</h2></div><span class="section-note">15 个区域 <i></i> 每人只改一个 HTML 文件</span></div>
+      <div class="team-note" id="memberTip" role="status">选择上方姓名，查看自己的文件。修改文件中的自我介绍、兴趣和学习目标，保存后刷新预览。</div>
+      <div class="team-actions"><span>共建成员墙 <span class="muted">/ MEMBERS</span></span><button id="refreshMembersButton" class="text-button" type="button">↻ 刷新介绍预览</button></div>
+      <div id="memberGrid" class="member-grid"></div>
+      <noscript><p class="notice">请启用 JavaScript 显示 15 位成员区域。也可以直接打开 members/01.html 至 members/15.html。</p></noscript>
+    </section>
+
+    <section id="sortingTask" aria-labelledby="sortingTitle" hidden>
+      <div class="sorting-heading"><div><div class="eyebrow">PART 01 / ALGORITHM PRACTICE</div><h1 id="sortingTitle">把思路，写成可运行的代码<span class="accent">。</span></h1><p>编写排序程序，验证结果，再下载属于你的那份实现。</p></div><span class="pill">C · C++ · Python</span></div>
+      <div class="workspace-grid">
+        <div class="problem-column">
+          <article class="panel problem-panel">
+            <div class="panel-heading"><h2>01 / 整数数组升序排序</h2><span class="pill">基础算法</span></div>
+            <p>实现 <code>sort_array</code>，将给定整数数组按从小到大排序，并保留所有元素。每次交换或写入后，可调用 <code>snapshot</code> 记录可视化步骤。</p>
+            <div class="example"><span>输入</span><code>[42, 17, 65, 9, 38, 54, 26, 73]</code><span>输出</span><code>[9, 17, 26, 38, 42, 54, 65, 73]</code></div>
+            <div class="problem-meta"><span>2–32 个整数</span><span>数值 -999～999</span><span>运行限时 3 秒</span></div>
+          </article>
+          <article class="panel visualization-panel">
+            <div class="panel-heading"><h2>数组可视化</h2><button class="text-button" id="shuffleButton" type="button">↻ 更换数组</button></div>
+            <div class="visual-caption"><span id="visualStatus">等待代码运行</span><span id="arrayCount">8 个元素 · 升序</span></div>
+            <div id="bars" class="bars" role="img" aria-label="待排序的数组"></div>
+            <div class="legend"><span><i></i>待排序</span><span><i></i>发生变化</span><span><i></i>排序完成</span></div>
+            <div class="playback" id="playback" hidden><button class="text-button" id="playbackButton" type="button">暂停</button><input id="frameSlider" type="range" min="0" max="1" value="0" aria-label="查看排序步骤"><span id="frameCount">0 / 0</span><select id="playbackSpeed" aria-label="回放速度"><option value="400">0.5×</option><option value="200" selected>1×</option><option value="80">2.5×</option></select></div>
+            <details class="custom-array"><summary>自定义测试数组</summary><form id="arrayForm"><label class="sr-only" for="arrayInput">测试数组</label><input id="arrayInput" value="42, 17, 65, 9, 38, 54, 26, 73" spellcheck="false" autocomplete="off"><button class="button" type="submit">应用</button></form><p class="form-error" id="arrayError" aria-live="polite"></p></details>
+          </article>
+        </div>
+
+        <article class="panel editor-panel">
+          <div class="editor-toolbar"><span id="editorFileName">solution.py</span><span id="editedDot" class="edited-dot" hidden title="代码已修改"></span><label class="sr-only" for="languageSelect">编程语言</label><select id="languageSelect"><option value="python">Python 3</option><option value="cpp">C++ 17</option><option value="c">C 11</option></select></div>
+          <div class="editor-contract" id="editorContract"></div>
+          <div class="code-area"><div id="lineNumbers" class="line-numbers" aria-hidden="true"></div><label class="sr-only" for="codeEditor">排序代码</label><textarea id="codeEditor" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-describedby="editorContract" wrap="off"></textarea></div>
+          <div class="editor-status"><span id="saveStatus">草稿保存在当前浏览器</span><span id="cursorPosition">Ln 1, Col 1</span></div>
+          <div class="run-toolbar"><span class="runner-status" id="runnerStatus">连接执行环境…</span><div><button class="button" id="resetCodeButton" type="button">重置</button><button class="button button-primary" id="runButton" type="button"><span>运行并验证</span><kbd>Ctrl ↵</kbd></button></div></div>
+          <section class="console" aria-label="运行与验证结果"><div><strong>验证结果</strong><span id="runDuration">等待执行</span></div><pre class="console-output" id="consoleOutput" role="status" aria-live="polite">完成 TODO，然后点击「运行并验证」。</pre></section>
+        </article>
+      </div>
+      <section class="download-panel" aria-labelledby="downloadTitle">
+        <div><div class="eyebrow">VERIFY → DOWNLOAD → COMMIT</div><h2 id="downloadTitle">验证通过，带上你的名字交付。</h2><p>下载后手动移入仓库的 <code>submissions/</code> 文件夹，再和自我介绍一起提交。</p></div>
+        <div class="download-fields"><label>班级<input id="studentClass" readonly placeholder="请在上方选择成员"></label><label>姓名<input id="studentName" readonly placeholder="请在上方选择成员"></label><button class="button button-primary" id="downloadCodeButton" type="button" disabled>下载已验证程序 ↓</button></div>
+        <p class="download-hint" id="downloadHint" role="status">先选择姓名并通过当前数组验证，即可按「班级_姓名」下载。</p>
+      </section>
+      <p class="sorting-note">验证仅针对当前测试数组。请使用不同数组检查重复值、负数和边界情况；中间动画来自程序记录的 snapshot。</p>
+    </section>
+
+    <section id="workflow" class="workflow" aria-labelledby="workflowTitle">
+      <div class="section-heading"><div><span class="eyebrow">FROM LOCAL TO PULL REQUEST</span><h2 id="workflowTitle">开发完成，交给团队审核。</h2></div><span class="pill">目标分支：调整测试</span></div>
+      <div class="workflow-grid">
+        <article><span class="step-index">01 / START</span><h3>拉取项目，双击即可启动</h3><p>先创建个人分支，再双击 start.bat。首次联网自动准备 Python，无需配置环境变量或安装 Node.js。</p><pre id="startCommands">git clone -b 调整测试 &lt;仓库地址&gt;
+cd GreenExplore
+git switch -c "student/班级-姓名"
+.\start.bat</pre></article>
+        <article><span class="step-index">02 / DEVELOP</span><h3>只交付属于自己的两个文件</h3><p>排序验证通过后下载；成员介绍直接修改对应 HTML。保存后刷新页面检查效果。</p><div class="deliverable"><span>排序代码</span><code id="sortFilePath">submissions/班级_姓名.py</code><span>个人介绍</span><code id="memberFilePath">members/你的编号.html</code></div><p class="small-note">共享入口、公共样式和运行服务已准备好，个人介绍无需修改其他文件。</p></article>
+        <article><span class="step-index">03 / REVIEW</span><h3>推送个人分支，创建 PR</h3><p>将 PR 的目标分支设为「调整测试」，在描述里说明修改内容及验证方式，等待审核。</p><pre id="submitCommands">git add "members/你的编号.html" "submissions/班级_姓名.py"
+git commit -m "feat: 完成个人开发练习"
+git push -u origin HEAD</pre><button id="copyCommandsButton" class="text-button" type="button">复制我的提交命令 ↗</button></article>
+      </div>
+      <div class="review-note"><span class="review-dot"></span><p>每位同学使用自己的分支，通过审核后合并。页面展示本地文件，远程仓库以实际 Git 提交和审核结果为准。</p></div>
+    </section>
+  </main>
+  <footer class="site-footer container"><span>GREENEXPLORE <i>/</i> BUILD SOMETHING TOGETHER.</span><span>15 位同学 · 一个共同的项目</span></footer>
+  <div id="toast" class="toast" role="status" hidden></div>
 </body>
 </html>
