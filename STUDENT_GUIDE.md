@@ -15,7 +15,7 @@
 1. 安装 [VS Code 桌面版](https://code.visualstudio.com/download)。已有 VS Code 就跳过。
 2. 安装 [Git for Windows](https://git-scm.com/install/windows)。安装向导通常可保留默认选项；PATH 相关页面选择包含“Git from the command line and also from 3rd-party software”的选项，使 VS Code 能找到 Git。
 3. 安装 Git 后完全退出 VS Code，再重新打开。
-4. 准备自己的 GitHub 账号。当前仓库为公开仓库，查看、克隆和拉取公开代码无需老师邀请。直接推送个人分支到老师仓库需要写权限；若老师授予协作者权限，先接受邀请。也可以使用第 14 步的 Fork 路线，无需获得老师仓库的写权限。
+4. 准备自己的 GitHub 账号。老师应提前为同学提供仓库访问和推送权限，同学接受邀请后再开始。没有推送权限时，使用第 14 步的 Fork 路线。
 5. 在 VS Code 按 `Ctrl + Shift + X` 打开扩展，搜索 `GitHub Pull Requests`，确认发布者是 **GitHub**，点击“安装”。项目也已列出该扩展推荐。
 6. 点击活动栏中的 GitHub 图标，选择“Sign In / 登录”，按提示完成 GitHub 登录并返回 VS Code。
 
@@ -226,7 +226,7 @@ Git 提交需要作者姓名与邮箱；登录 GitHub 不等于已设置提交�
 | 现象 | 在 VS Code 中如何处理 |
 | --- | --- |
 | 没有“Git: 克隆”或提示找不到 Git | 安装 Git 后完全退出并重开 VS Code，重新执行克隆。 |
-| 克隆提示 Repository not found / 403 | 当前仓库公开，先核对 HTTPS 地址和网络；不需要为克隆申请写权限。若仓库以后改为私有，再确认访问授权。 |
+| 克隆提示 Repository not found / 403 | 确认仓库 URL，登录有权限的账号，确认已接受老师的仓库邀请。 |
 | 已克隆，却找不到启动任务 | 用“文件 → 打开文件夹”打开包含 `index.html`、`start.ps1` 和 `.vscode/tasks.json` 的根目录；确认已拉取老师发布的最新版本。 |
 | 双击 start.bat 只显示代码 | 这是编辑器行为。改用“终端 → 运行任务 → 启动项目（Windows）”。 |
 | 启动时提示下载 Python 失败 | 首次准备环境需要联网。检查网络后重新运行；机房离线时，将老师提供的同架构 `.runtime` 文件夹放到已克隆项目根目录。 |
