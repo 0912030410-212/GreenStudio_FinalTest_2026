@@ -81,14 +81,14 @@
     </section>
 
     <section id="workflow" class="workflow" aria-labelledby="workflowTitle">
-      <div class="section-heading"><div><span class="eyebrow">FROM LOCAL TO PULL REQUEST</span><h2 id="workflowTitle">开发完成，交给团队审核。</h2></div><span class="pill">目标分支：调整测试</span></div>
+      <div class="section-heading"><div><span class="eyebrow">FROM LOCAL TO PULL REQUEST</span><h2 id="workflowTitle">开发完成，交给团队审核。</h2></div><span class="pill">目标分支：main</span></div>
       <div class="workflow-grid">
-        <article><span class="step-index">01 / START</span><h3>拉取项目，双击即可启动</h3><p>先创建个人分支，再双击 start.bat。首次联网自动准备 Python，无需配置环境变量或安装 Node.js。</p><pre id="startCommands">git clone -b 调整测试 &lt;仓库地址&gt;
-cd GreenExplore
+        <article><span class="step-index">01 / START</span><h3>拉取项目，双击即可启动</h3><p>先创建个人分支。在 VS Code 选择“终端 → 运行任务 → 启动项目（Windows）”，首次会自动准备 Python。</p><pre id="startCommands">git clone https://github.com/UnwrittenJuly/GreenStudio_FinalTest_2026.git
+cd GreenStudio_FinalTest_2026
 git switch -c "student/班级-姓名"
 .\start.bat</pre></article>
         <article><span class="step-index">02 / DEVELOP</span><h3>只交付属于自己的两个文件</h3><p>排序验证通过后下载；成员介绍直接修改对应 HTML。保存后刷新页面检查效果。</p><div class="deliverable"><span>排序代码</span><code id="sortFilePath">submissions/班级_姓名.py</code><span>个人介绍</span><code id="memberFilePath">members/你的编号.html</code></div><p class="small-note">共享入口、公共样式和运行服务已准备好，个人介绍无需修改其他文件。</p></article>
-        <article><span class="step-index">03 / REVIEW</span><h3>推送个人分支，创建 PR</h3><p>将 PR 的目标分支设为「调整测试」，在描述里说明修改内容及验证方式，等待审核。</p><pre id="submitCommands">git add "members/你的编号.html" "submissions/班级_姓名.py"
+        <article><span class="step-index">03 / REVIEW</span><h3>推送个人分支，创建 PR</h3><p>将 PR 的目标分支设为 main，在描述里说明修改内容及验证方式，等待审核。</p><pre id="submitCommands">git add "members/你的编号.html" "submissions/班级_姓名.py"
 git commit -m "feat: 完成个人开发练习"
 git push -u origin HEAD</pre><button id="copyCommandsButton" class="text-button" type="button">复制我的提交命令 ↗</button></article>
       </div>

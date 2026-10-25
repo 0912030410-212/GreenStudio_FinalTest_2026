@@ -58,7 +58,7 @@
     const sortingPath = `submissions/${identity}.${extension}`;
     $('sortFilePath').textContent = sortingPath;
     $('memberFilePath').textContent = memberPath;
-    $('startCommands').textContent = `git clone -b 调整测试 <仓库地址>\ncd GreenExplore\ngit switch -c "student/${member ? `${member.studentClass}-${member.name}` : '班级-姓名'}"\n.\\start.bat`;
+    $('startCommands').textContent = `git clone https://github.com/UnwrittenJuly/GreenStudio_FinalTest_2026.git\ncd GreenStudio_FinalTest_2026\ngit switch -c "student/${member ? `${member.studentClass}-${member.name}` : '班级-姓名'}"\n.\\start.bat`;
     $('submitCommands').textContent = `git add "${memberPath}" "${sortingPath}"\ngit commit -m "feat: 完成${member?.name || '个人'}的开发练习"\ngit push -u origin HEAD`;
     $('copyCommandsButton').textContent = '复制我的提交命令 ↗';
   }

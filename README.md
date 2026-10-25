@@ -2,10 +2,12 @@
 
 这是一个供 15 名同学一起完成的本地开发项目。每人交付两项内容：一份验证通过的排序代码，以及自己的自我介绍页面。网页首页汇总所有成员的介绍，开发过程包括拉取项目、编码、验证、提交和审核。
 
+**第一次使用 Git 和 VS Code：请从 [学生图形化操作指南](STUDENT_GUIDE.md) 开始。** 包含克隆、姓名邮箱配置、分支、菜单启动、提交和 PR 审核，无需手动输入终端命令。当前课程仓库为 [GreenStudio_FinalTest_2026](https://github.com/UnwrittenJuly/GreenStudio_FinalTest_2026)，公共分支为 `main`。
+
 ## 1. Windows：双击启动
 
 1. 获取项目：下载 ZIP 并完整解压，或用 Git 拉取仓库。
-2. 双击项目里的 **`start.bat`**。脚本自动检测 Python，缺少时首次联网准备；无需提前安装 Python、Node.js 或配置环境变量。
+2. 在 Windows 文件资源管理器中双击项目里的 **`start.bat`**；VS Code 中则选择 **终端 → 运行任务 → 启动项目（Windows）**。脚本自动检测 Python，缺少时首次联网准备；无需提前安装 Python、Node.js 或配置环境变量。
 3. 等待浏览器自动打开 [http://127.0.0.1:8000](http://127.0.0.1:8000)。使用期间保持启动窗口打开，关闭窗口即可结束服务。
 
 排序默认选择 Python，即可完成全部考核。C / C++ 是可选语言，需要自行准备 GCC / G++。修改介绍页可以使用 VS Code，也可以用系统记事本打开自己的 HTML 文件，保存为 UTF-8。
@@ -41,11 +43,11 @@ Python 可以返回排序后的列表，也可以原地修改数组；C / C++ �
 
 ## 4. Git 协作与审核
 
-开始开发前安装 Git，用实际仓库地址替换 `<仓库地址>`。以电子 2602 班任天灵为例，其他同学替换自己的班级姓名：
+开始开发前安装 Git。以下已填入课程仓库地址，以电子 2602 班任天灵为例，其他同学替换自己的班级姓名；图形化操作见上方学生指南：
 
 ```sh
-git clone -b 调整测试 <仓库地址>
-cd GreenExplore
+git clone https://github.com/UnwrittenJuly/GreenStudio_FinalTest_2026.git
+cd GreenStudio_FinalTest_2026
 git switch -c student/电子2602-任天灵
 ```
 
@@ -59,9 +61,9 @@ git commit -m "feat: 完成任天灵的介绍与排序考核"
 git push -u origin student/电子2602-任天灵
 ```
 
-在远程仓库创建 Pull Request（PR），目标分支选择 `调整测试`，来源分支选择自己的 `student/...` 分支。填写班级姓名、介绍文件、排序语言和验证结果，等待审核。收到修改意见后，在自己的分支修改、重新验证、提交并推送，PR 会自动更新。审核通过后，由维护者合并到共享首页。
+在远程仓库创建 Pull Request（PR），目标分支选择 `main`，来源分支选择自己的 `student/...` 分支。填写班级姓名、介绍文件、排序语言和验证结果，等待审核。收到修改意见后，在自己的分支修改、重新验证、提交并推送，PR 会自动更新。审核通过后，由维护者合并到共享首页。
 
-没有仓库写权限时，先 Fork 仓库，推送到自己的 Fork，再向原仓库的 `调整测试` 分支发起 PR。继续开发前，可在个人分支运行 `git fetch origin` 和 `git merge origin/调整测试` 同步已合并内容。
+没有仓库写权限时，先 Fork 仓库，推送到自己的 Fork，再向原仓库的 `main` 分支发起 PR。继续开发前，可在个人分支运行 `git fetch origin` 和 `git merge origin/main` 同步已合并内容。
 
 ## 项目结构与维护
 
@@ -78,6 +80,8 @@ GreenExplore/
 ├─ server.py              # 本地服务与代码执行
 ├─ start.bat              # Windows 双击启动入口
 ├─ start.ps1              # 自动准备 Python 并启动
+├─ STUDENT_GUIDE.md       # VS Code 图形化操作指南
+├─ .vscode/tasks.json     # 菜单启动任务
 └─ test_server.py         # 执行服务测试
 ```
 
