@@ -10,8 +10,8 @@
 
 每人选择一种语言，只提交自己最终通过验证的源文件。修改代码后请重新在网页验证，下载最新版本。
 
-默认使用 Python，无需另外安装编译器。先双击项目根目录的 `start.bat`，浏览器打开后即可作答。
+默认使用 Python，无需另外安装编译器。在 VS Code 选择“终端 → 运行任务 → 启动项目（Windows）”，浏览器打开后即可作答；也可以在 Windows 文件资源管理器中双击项目根目录的 `start.bat`。
 
-将源文件与自己的 `members/NN.html` 一起提交到个人分支，向 `main` 分支发起 PR，等待审核。无需提交草稿、截图、编译出的可执行文件或临时文件。
+在 VS Code 只暂存、提交源文件与自己的 `members/NN.html`，发布个人分支到自己的 Fork，再向课程仓库 `UnwrittenJuly/GreenStudio_FinalTest_2026` 的 `main` 发起 PR。看到 PR 编号和 Open 状态即完成提交，老师负责审核合并。无需提交草稿、截图、编译出的可执行文件或临时文件。
 
-成员对应关系见 [分工表](../members/README.md)，完整流程见 [项目说明](../README.md)。
+成员对应关系见 [分工表](../members/README.md)，从安装 Git 到创建 PR 的完整图形化流程见 [学生零基础操作指南](../STUDENT_GUIDE.md)。

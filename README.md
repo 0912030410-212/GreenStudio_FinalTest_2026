@@ -2,17 +2,17 @@
 
 这是一个供 15 名同学一起完成的本地开发项目。每人交付两项内容：一份验证通过的排序代码，以及自己的自我介绍页面。网页首页汇总所有成员的介绍，开发过程包括拉取项目、编码、验证、提交和审核。
 
-**第一次使用 Git 和 VS Code：请从 [学生图形化操作指南](STUDENT_GUIDE.md) 开始。** 包含克隆、姓名邮箱配置、分支、菜单启动、提交和 PR 审核，无需手动输入终端命令。当前课程仓库为 [GreenStudio_FinalTest_2026](https://github.com/UnwrittenJuly/GreenStudio_FinalTest_2026)，公共分支为 `main`。
+**第一次使用 Git 和 GitHub：请从 [学生零基础操作指南](STUDENT_GUIDE.md) 开始。** 从安装 Git、注册账号，到 Fork、VS Code 克隆、配置提交身份、创建本地分支、提交上传和发起 PR，按界面逐步操作，无需手动输入 Git 终端命令。课程公开仓库为 [GreenStudio_FinalTest_2026](https://github.com/UnwrittenJuly/GreenStudio_FinalTest_2026)，公共分支为 `main`。**同学向课程仓库发起 PR 即完成提交流程，审核与合并由老师处理。**
 
 ## 1. Windows：双击启动
 
-1. 获取项目：下载 ZIP 并完整解压，或用 Git 拉取仓库。
+1. 获取项目：正式交作业请先 Fork 课程仓库，再用 VS Code 克隆自己的 Fork，具体步骤见学生指南；只想体验运行也可以下载 ZIP 并完整解压。
 2. 在 Windows 文件资源管理器中双击项目里的 **`start.bat`**；VS Code 中则选择 **终端 → 运行任务 → 启动项目（Windows）**。脚本自动检测 Python，缺少时首次联网准备；无需提前安装 Python、Node.js 或配置环境变量。
 3. 等待浏览器自动打开 [http://127.0.0.1:8000](http://127.0.0.1:8000)。使用期间保持启动窗口打开，关闭窗口即可结束服务。
 
 排序默认选择 Python，即可完成全部考核。C / C++ 是可选语言，需要自行准备 GCC / G++。修改介绍页可以使用 VS Code，也可以用系统记事本打开自己的 HTML 文件，保存为 UTF-8。
 
-**正式参与仓库协作还需安装 Git，并按第 4 节拉取项目、创建个人分支后再开始修改。** 下载 ZIP 可以直接体验运行，但 ZIP 目录不包含 Git 提交记录。
+**正式参与仓库协作还需安装 Git，并按第 4 节克隆项目、配置提交身份、创建个人分支后再开始修改。** 克隆会自动建立本地仓库并连接自己的 Fork，无需再初始化。ZIP 目录不包含 Git 提交记录，已有作业可复制到另外克隆的项目里继续。
 
 离线机房可由老师在联网且 Windows 架构相同的电脑运行 `.\start.bat -Portable -PrepareOnly`，准备好 `.runtime/` 后，将包含该文件夹的完整项目压缩分发。同学解压后仍双击 `start.bat`；`.runtime/` 不提交到 Git。便携运行环境来自 [Python 官方发布包](https://www.python.org/downloads/release/python-31317/)，下载后校验 SHA-256，不修改系统 PATH，不需要管理员权限。
 
@@ -41,29 +41,27 @@ Python 可以返回排序后的列表，也可以原地修改数组；C / C++ �
 
 介绍建议包含姓名、班级、一句话介绍、兴趣或技能，以及一个学习目标。可以调整自己页面的颜色和排版，做到简洁易读。保留文件路径和分工对应关系。例如任天灵负责 `members/01.html`，李嘉赢负责 `members/02.html`，完整名单以分工表为准。
 
-## 4. Git 协作与审核
+## 4. 用 VS Code 完成 Git 协作与 PR
 
-开始开发前安装 Git。以下已填入课程仓库地址，以电子 2602 班任天灵为例，其他同学替换自己的班级姓名；图形化操作见上方学生指南：
+课程仓库是公开的。同学统一采用 **Fork → 克隆自己的 Fork → 个人分支开发 → 上传自己的 Fork → 向课程仓库发 PR** 的流程，无需获得课程仓库写权限。详细的按钮位置、配置方法和完成标志见 [学生零基础操作指南](STUDENT_GUIDE.md)。
 
-```sh
-git clone https://github.com/UnwrittenJuly/GreenStudio_FinalTest_2026.git
-cd GreenStudio_FinalTest_2026
-git switch -c student/电子2602-任天灵
-```
+以电子2602班任天灵为例，操作顺序如下：
 
-在这个目录双击 `start.bat` 完成两部分。提交前，确认排序通过网页验证，首页正常展示自己的介绍，窄屏下也能阅读：
+1. 安装 Git 和桌面版 VS Code，注册 GitHub。在 VS Code 安装 GitHub 发布的 GitHub Pull Requests 扩展并登录自己的账号。
+2. 浏览器打开课程仓库，点击 **Fork → Create fork**，将副本创建到自己账号下。在自己的 Fork 页面复制 **Code → HTTPS** 地址。
+3. 在 VS Code 按 **Ctrl + Shift + P**，选择 **Git: Clone / 克隆**，粘贴自己的 Fork 地址，选择父文件夹，完成后点击“打开”。克隆会自动建立本地仓库，远程连接 `origin` 指向自己的 Fork。
+4. 按学生指南在当前仓库的 `.git/config` 中配置自己的提交姓名和邮箱。GitHub 登录与提交身份是两项独立配置。
+5. 左下角选择 `main`，通过 **Git: Pull / 拉取** 更新自己的主分支；再点击分支名 → **创建新分支**，输入 `student/电子2602-任天灵`。
+6. 选择 **终端 → 运行任务 → 启动项目（Windows）**，完成并验证自己的介绍和排序代码。
+7. 将最终下载的排序文件放进 `submissions`，保存介绍文件，按 **Ctrl + Shift + G** 打开源代码管理。
+8. 检查差异，只对 `members/01.html` 和 `submissions/电子2602_任天灵.py` 分别点击 **＋** 暂存；填写提交说明，点击 **提交 / Commit**。
+9. 点击 **发布分支 / Publish Branch**，选择 `origin`，上传到自己的 Fork。在 GitHub 选择个人分支，确认文件已经更新。
+10. 在 VS Code 命令面板选择 **GitHub Pull Requests: Create Pull Request**。目标仓库选 `UnwrittenJuly/GreenStudio_FinalTest_2026`，目标分支选 `main`；来源选自己 Fork 中的个人分支。
+11. 按模板填写班级姓名、文件路径、排序语言、实现思路和验证结果，核对只有自己的两个文件，点击 **Create / 创建**。在课程仓库看到 PR 编号和 Open 状态，即完成提交。
 
-```sh
-git status
-git diff -- members/01.html
-git add members/01.html submissions/电子2602_任天灵.py
-git commit -m "feat: 完成任天灵的介绍与排序考核"
-git push -u origin student/电子2602-任天灵
-```
+保存只更新本机文件，提交只写入本地历史，发布分支才会上传到自己的 GitHub。**上传后还需创建 PR，老师才能在课程仓库的审核列表中看到这次作业。**
 
-在远程仓库创建 Pull Request（PR），目标分支选择 `main`，来源分支选择自己的 `student/...` 分支。填写班级姓名、介绍文件、排序语言和验证结果，等待审核。收到修改意见后，在自己的分支修改、重新验证、提交并推送，PR 会自动更新。审核通过后，由维护者合并到共享首页。
-
-没有仓库写权限时，先 Fork 仓库，推送到自己的 Fork，再向原仓库的 `main` 分支发起 PR。继续开发前，可在个人分支运行 `git fetch origin` 和 `git merge origin/main` 同步已合并内容。
+收到修改意见后，在原个人分支修改、重新验证、暂存、提交，再选择 **Git: Push / 推送**，同一个 PR 会自动更新。同学无需自行合并 PR。第一次获取项目用“克隆”，以后打开原目录继续；新任务开始前，在 GitHub 的 Fork 主分支使用 **Sync fork → Update branch**，再回 VS Code 切换本地 `main` 并拉取。
 
 ## 项目结构与维护
 
@@ -80,7 +78,7 @@ GreenExplore/
 ├─ server.py              # 本地服务与代码执行
 ├─ start.bat              # Windows 双击启动入口
 ├─ start.ps1              # 自动准备 Python 并启动
-├─ STUDENT_GUIDE.md       # VS Code 图形化操作指南
+├─ STUDENT_GUIDE.md       # 从零开始的 VS Code 与 PR 操作指南
 ├─ .vscode/tasks.json     # 菜单启动任务
 └─ test_server.py         # 执行服务测试
 ```

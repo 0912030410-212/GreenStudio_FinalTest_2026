@@ -50,7 +50,7 @@
   }
 
   function selectedMember() { return members.find(member => member.id === select.value); }
-  function updateCommands() {
+  function updateChecklist() {
     const member = selectedMember();
     const extension = { python: 'py', c: 'c', cpp: 'cpp' }[$('languageSelect').value];
     const identity = member ? `${member.studentClass}_${member.name}` : '班级_姓名';
@@ -58,9 +58,11 @@
     const sortingPath = `submissions/${identity}.${extension}`;
     $('sortFilePath').textContent = sortingPath;
     $('memberFilePath').textContent = memberPath;
-    $('startCommands').textContent = `git clone https://github.com/UnwrittenJuly/GreenStudio_FinalTest_2026.git\ncd GreenStudio_FinalTest_2026\ngit switch -c "student/${member ? `${member.studentClass}-${member.name}` : '班级-姓名'}"\n.\\start.bat`;
-    $('submitCommands').textContent = `git add "${memberPath}" "${sortingPath}"\ngit commit -m "feat: 完成${member?.name || '个人'}的开发练习"\ngit push -u origin HEAD`;
-    $('copyCommandsButton').textContent = '复制我的提交命令 ↗';
+    const branch = `student/${member ? `${member.studentClass}-${member.name}` : '班级-姓名'}`;
+    $('startSteps').textContent = `浏览器 → 课程仓库 → Fork\nVS Code → Git: Clone → 自己的 Fork 地址\n打开项目 → main → 创建新分支\n个人分支：${branch}\n终端 → 运行任务 → 启动项目（Windows）`;
+    $('submissionChecklist').textContent = `提交说明：feat: 完成${member?.name || '个人'}的介绍与排序考核\n来源：自己的 Fork / ${branch}\n目标：UnwrittenJuly/GreenStudio_FinalTest_2026 / main\n填写模板 → 创建 PR → 等待老师审核`;
+    $('copyChecklistButton').textContent = '复制我的提交清单 ↗';
+    $('copyChecklistButton').disabled = !member;
   }
   function updateIdentity() {
     const member = selectedMember();
@@ -72,7 +74,7 @@
       : '选择上方姓名，查看自己的文件。修改文件中的自我介绍、兴趣和学习目标，保存后刷新预览。';
     for (const card of grid.children) card.classList.toggle('is-mine', card.id === `member-${member?.id}`);
     try { localStorage.setItem(storageKey, select.value); } catch { /* 身份选择仍可使用。 */ }
-    updateCommands();
+    updateChecklist();
     // 通知排序模块更新下载资格；身份由本模块统一管理。
     $('studentClass').dispatchEvent(new Event('input', { bubbles: true }));
     $('studentName').dispatchEvent(new Event('input', { bubbles: true }));
@@ -91,8 +93,8 @@
     if (members.some(member => member.id === saved)) select.value = saved;
   } catch { /* 不依赖本地存储也能选择成员。 */ }
   select.addEventListener('change', updateIdentity);
-  $('languageSelect').addEventListener('change', updateCommands);
-  document.addEventListener('sorting-language-change', updateCommands);
+  $('languageSelect').addEventListener('change', updateChecklist);
+  document.addEventListener('sorting-language-change', updateChecklist);
   window.addEventListener('hashchange', updateView);
   $('locateMemberButton').addEventListener('click', () => {
     const member = selectedMember();
@@ -107,12 +109,14 @@
     }
     $('memberTip').textContent = '介绍预览已刷新。请确认已在编辑器中保存自己的 HTML 文件。';
   });
-  $('copyCommandsButton').addEventListener('click', async event => {
-    if (!selectedMember()) { select.focus(); return; }
+  $('copyChecklistButton').addEventListener('click', async event => {
+    const member = selectedMember();
+    if (!member) { select.focus(); return; }
+    const checklist = `${member.studentClass} ${member.name}的提交清单\n获取项目：浏览器 Fork 老师的公开仓库到自己的账号 → VS Code 克隆自己的 Fork\n远程 origin：自己的 Fork\n介绍文件：${$('memberFilePath').textContent}\n排序文件：${$('sortFilePath').textContent}\n${$('submissionChecklist').textContent}\nVS Code 操作：保存 → 检查差异 → 分别暂存两个文件 → 提交 → 发布分支到自己的 origin（后续为推送）→ 向老师仓库创建 PR\n成功创建 PR 即完成提交流程，等待老师审核和合并。\n完整指南：在 VS Code 打开 STUDENT_GUIDE.md，按 Ctrl + Shift + V 预览。`;
     try {
-      await navigator.clipboard.writeText($('submitCommands').textContent);
+      await navigator.clipboard.writeText(checklist);
       event.target.textContent = '已复制 ✓';
-    } catch { event.target.textContent = '请手动选择并复制上方命令'; }
+    } catch { event.target.textContent = '请手动选择并复制上方文件路径和清单'; }
   });
   updateView();
   updateIdentity();

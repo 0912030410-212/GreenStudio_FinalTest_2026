@@ -83,16 +83,18 @@
     <section id="workflow" class="workflow" aria-labelledby="workflowTitle">
       <div class="section-heading"><div><span class="eyebrow">FROM LOCAL TO PULL REQUEST</span><h2 id="workflowTitle">开发完成，交给团队审核。</h2></div><span class="pill">目标分支：main</span></div>
       <div class="workflow-grid">
-        <article><span class="step-index">01 / START</span><h3>拉取项目，双击即可启动</h3><p>先创建个人分支。在 VS Code 选择“终端 → 运行任务 → 启动项目（Windows）”，首次会自动准备 Python。</p><pre id="startCommands">git clone https://github.com/UnwrittenJuly/GreenStudio_FinalTest_2026.git
-cd GreenStudio_FinalTest_2026
-git switch -c "student/班级-姓名"
-.\start.bat</pre></article>
+        <article><span class="step-index">01 / START</span><h3>先 Fork，再用 VS Code 克隆</h3><p>安装 Git 并登录 GitHub，在浏览器打开公开的<a href="https://github.com/UnwrittenJuly/GreenStudio_FinalTest_2026" target="_blank" rel="noopener">课程仓库</a>，点击 Fork 保存到自己的账号。VS Code 克隆自己的 Fork 后，配置提交姓名邮箱，再从 main 创建分支。</p><pre id="startSteps">浏览器 → 课程仓库 → Fork
+VS Code → Git: Clone → 自己的 Fork 地址
+打开项目 → main → 创建新分支
+个人分支：student/班级-姓名
+终端 → 运行任务 → 启动项目（Windows）</pre><p class="small-note">完整步骤：在 VS Code 打开根目录的 <code>STUDENT_GUIDE.md</code>，按 Ctrl + Shift + V 预览。</p></article>
         <article><span class="step-index">02 / DEVELOP</span><h3>只交付属于自己的两个文件</h3><p>排序验证通过后下载；成员介绍直接修改对应 HTML。保存后刷新页面检查效果。</p><div class="deliverable"><span>排序代码</span><code id="sortFilePath">submissions/班级_姓名.py</code><span>个人介绍</span><code id="memberFilePath">members/你的编号.html</code></div><p class="small-note">共享入口、公共样式和运行服务已准备好，个人介绍无需修改其他文件。</p></article>
-        <article><span class="step-index">03 / REVIEW</span><h3>推送个人分支，创建 PR</h3><p>将 PR 的目标分支设为 main，在描述里说明修改内容及验证方式，等待审核。</p><pre id="submitCommands">git add "members/你的编号.html" "submissions/班级_姓名.py"
-git commit -m "feat: 完成个人开发练习"
-git push -u origin HEAD</pre><button id="copyCommandsButton" class="text-button" type="button">复制我的提交命令 ↗</button></article>
+        <article><span class="step-index">03 / REVIEW</span><h3>推送自己的 Fork，向老师发起 PR</h3><p>在源代码管理中分别点击两个文件旁的 ＋，填写说明后“提交”，再“发布分支”到 origin（自己的 Fork）。使用 GitHub Pull Requests 扩展向老师仓库创建 PR。</p><pre id="submissionChecklist">提交说明：feat: 完成个人的介绍与排序考核
+来源：自己的 Fork / student/班级-姓名
+目标：UnwrittenJuly/GreenStudio_FinalTest_2026 / main
+填写模板 → 创建 PR → 等待老师审核</pre><button id="copyChecklistButton" class="text-button" type="button" disabled>复制我的提交清单 ↗</button></article>
       </div>
-      <div class="review-note"><span class="review-dot"></span><p>每位同学使用自己的分支，通过审核后合并。页面展示本地文件，远程仓库以实际 Git 提交和审核结果为准。</p></div>
+      <div class="review-note"><span class="review-dot"></span><p>成功创建 PR 即完成提交流程，老师负责审核和合并。页面展示本地文件，远程仓库以实际 Git 提交和审核结果为准。</p></div>
     </section>
   </main>
   <footer class="site-footer container"><span>GREENEXPLORE <i>/</i> BUILD SOMETHING TOGETHER.</span><span>15 位同学 · 一个共同的项目</span></footer>
