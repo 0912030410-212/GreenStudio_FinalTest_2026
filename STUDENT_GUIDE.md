@@ -365,6 +365,8 @@ submissions/电子2602_任天灵.py
 
 **完成标志：** 在自己 GitHub Fork 的个人分支中，能看到两个作业文件的最新版本。
 
+如果发布失败，先看第 14 节的权限与网络排查。错误含 `permission denied` 时，从第 14.2 节开始；连接超时、DNS 或代理错误从第 14.3 节开始。推送失败不会删除已经保存在本地的提交。
+
 ## 12. 用 VS Code 向课程仓库创建 Pull Request
 
 PR 的方向要核对清楚：
@@ -444,7 +446,7 @@ PR 的方向要核对清楚：
 
 如果同步或切换时出现冲突，保留当前文件和提示，请老师协助。GitHub 同步 Fork 的步骤可参考 [官方说明](https://docs.github.com/en/pull-requests/how-tos/work-with-forks/syncing-a-fork)。
 
-## 14. 常见问题：先看这里
+## 14. 常见问题、权限与网络排查
 
 | 遇到的情况 | 怎么处理 |
 | --- | --- |
@@ -453,7 +455,7 @@ PR 的方向要核对清楚：
 | 不知道哪个是项目根目录 | 打开后应直接看到 `index.html`、`start.ps1`、`members`、`submissions`。 |
 | Fork 按钮提示已有副本 | 打开自己账号下已有的 Fork，在 `main` 同步后继续，无需重复创建。 |
 | 克隆提示 Repository not found | 从自己的 Fork 页面重新复制 Code → HTTPS 地址，确认用户名和仓库名无误。课程仓库是公开的，查看无需仓库邀请。 |
-| 克隆中断、下载很慢 | 检查网络，网络恢复后重试。如果已生成同名目录，保留它并选其他位置重新克隆，避免覆盖已有作业。 |
+| 克隆中断、下载很慢、连接超时 | 按第 14.3 节依次检查 GitHub 服务、网络和代理。如果已生成同名目录，保留它并选其他位置重新克隆，避免覆盖已有作业。 |
 | 双击 start.bat 只显示代码 | 改用 VS Code 的“终端 → 运行任务 → 启动项目（Windows）”；系统文件资源管理器双击才会运行。 |
 | 没有“启动项目（Windows）”任务 | 确认打开项目根目录，并已获得包含 `.vscode/tasks.json` 的课程版本。 |
 | 下载 Python 失败 | 首次准备需要联网，检查网络后重新运行；离线机房使用老师提供的同架构 `.runtime` 文件夹。 |
@@ -464,12 +466,148 @@ PR 的方向要核对清楚：
 | 无法提交，提示配置 name / email | 按第 5 步设置当前仓库的 `[user]`，保存后重试；GitHub 登录不会代替该配置。 |
 | 文件同时出现在“更改”和“暂存的更改” | 暂存后又修改过。保存后重新点该文件的 `＋`，将最新内容暂存。 |
 | 提交后更改列表清空，文件是不是没了 | 提交已记录，文件还在。继续发布分支或推送。 |
-| 推送提示 Permission denied / 403 | 检查登录的是自己的账号，且 `origin` 指向自己的 Fork。如果误克隆课程仓库，按本节下方方式保留并转移作业。 |
+| 推送提示 permission denied / 403 | 按第 14.2 节核对 Fork 所有者、远程地址、登录账号和缓存凭据。公开可读不代表可以直接上传。 |
+| 浏览器能打开 GitHub，VS Code 一直转圈 | 先找被遮挡的登录窗口；若日志含网络错误，按第 14.3 节检查 Git 自己的代理设置。 |
+| Git 一直传不上去，但网页正常 | 本次尚未创建 PR 时，可按第 14.4 节在自己的 Fork 网页上传两个作业文件，再向课程仓库发 PR。 |
 | 自己 Fork 的 main 中没有作业 | 在 GitHub 分支下拉框里切换到已发布的个人分支查看。 |
 | PR 显示没有差异 | 确认已暂存、提交、推送，且目标为课程仓库 `main`，来源为自己 Fork 的个人分支。 |
 | PR 中出现很多不属于自己的文件 | 先不要创建，检查来源分支和目标分支，再请老师核对；不要把其他文件全部提交来消除提示。 |
 | 提示冲突、合并失败或推送被拒绝 | 保留提示与本地文件，请老师协助处理，不要点击强制推送或放弃全部更改。 |
 | 发起 PR 后还要自己合并吗 | 不需要。看到课程仓库中自己的 PR 编号及 Open 状态即可，合并由老师或维护者处理。 |
+
+### 14.1 先找到真正的错误信息
+
+1. 在 VS Code 按 `Ctrl + Shift + P`，选择 **Git: Show Git Output / Git: 显示 Git 输出**。也可以从“源代码管理 → … → 显示 Git 输出”打开。
+2. 看最新一次 `push`、`pull` 或 `clone` 后面的报错。随后出现的 `git status`、`git for-each-ref` 通常只是 VS Code 刷新状态，不是失败原因。
+3. 按下面的关键词选择处理路线：
+
+| 日志中的关键词 | 优先检查 |
+| --- | --- |
+| `[remote rejected] ... (permission denied)`、`Permission to ... denied to ...`、`Authentication failed` | 账号、凭据、仓库写权限；见第 14.2 节。 |
+| `403` | 已收到 HTTP 拒绝响应；结合完整报错检查身份、权限或网络策略，不能只凭状态码判断断网。 |
+| `Could not resolve host: github.com` | 域名解析失败，检查网络登录、DNS 或代理；见第 14.3 节。 |
+| `Failed to connect ... port 443`、`Connection timed out`、`Connection was reset` | 连接被阻断、超时或中断；见第 14.3 节。 |
+| `Could not resolve proxy`、`Failed to connect to 127.0.0.1 port ...` | 代理地址错误，或对应代理程序没有运行；见第 14.3 节。 |
+| `HTTP/2 stream ...`、`curl 92` | HTTP/2 传输异常，按第 14.3 节的对应处理尝试。 |
+| `SSL certificate problem` | 系统时间或证书信任问题，按第 14.3 节检查。 |
+| `non-fast-forward`、`fetch first` | 远程有本地没有的提交；先保留并提交本地改动，再拉取，冲突时找老师协助。 |
+| `GH006`、`GH013`、`protected branch`、`repository rule violations` | 分支保护或仓库规则；把完整错误交给老师核对，不能靠反复推送解决。 |
+
+如果需要老师帮助，提供“失败操作、远程仓库地址、当前分支、第一条完整报错”。发送日志前遮住令牌、密码等登录信息。
+
+参考：[VS Code Git 输出与故障排查说明](https://code.visualstudio.com/docs/sourcecontrol/troubleshooting)。
+
+### 14.2 本次 permission denied：先查账号和自己的 Fork
+
+例如下面这次推送：
+
+```text
+To https://github.com/EchoesOfJune/GreenStudio_FinalTest_2026.git
+! [remote rejected] 通信2401-申铭清 -> 通信2401-申铭清 (permission denied)
+error: failed to push some refs
+```
+
+这段日志表明远端已经响应，并拒绝了分支更新；不能直接归为连接超时。**仅凭这几行，还无法确定是哪个账号或哪条规则造成拒绝。** 按以下顺序排查，不用先删项目或重新写作业。
+
+**第一步：确认推送到谁的仓库。**
+
+1. 浏览器打开 GitHub，点击右上角头像，查看自己当前登录的用户名。
+2. 再打开自己的 Fork，看左上角的 `用户名/GreenStudio_FinalTest_2026`。
+3. 日志示例中的 `EchoesOfJune` 是目标仓库的所有者。如果它不是你自己的 GitHub 用户名，就需要确认是否误用了别人的 Fork 地址；本次统一推送到自己账号下的 Fork。
+4. 在 VS Code 按第 5.2 节的方法打开本项目 `.git/config`，找到 `[remote "origin"]`，检查 `url`。如果还有 `pushurl`，它会单独指定上传地址，也要核对。
+5. 正确地址从**自己的 Fork 页面 → Code → HTTPS** 复制，应类似 `https://github.com/你的用户名/GreenStudio_FinalTest_2026.git`。
+6. 如果只是远程地址填错，且自己的 Fork 确认来自同一个课程仓库，可将 `url` 改成自己的地址；若已有错误的 `pushurl`，也改成同一个地址。保留其他配置，保存后重新“发布分支”，并在提示中选择自己的 `origin`。
+7. 如果还没有自己的 Fork，先按第 3 节创建。如果无法确认两个仓库来自同一个课程项目，使用本节末尾“已经误克隆课程仓库并写了作业怎么办”的保留与转移方法。
+
+改成自己的 Fork 地址后，本地的文件、分支和提交仍然保留。**PR 的目标依然是 `UnwrittenJuly/GreenStudio_FinalTest_2026` 的 `main`，不要把推送目标和 PR 目标混在一起。**
+
+**第二步：让 VS Code 和浏览器使用同一个正确账号。**
+
+1. 点击 VS Code 的 **Accounts / 账户** 菜单，通常在左下角。如果登录了错误的 GitHub 账号，先退出该账号。
+2. 浏览器确认登录的是拥有自己 Fork 的账号。
+3. 回到 VS Code 的 GitHub 视图重新登录并授权；重新执行“发布分支”或“推送”。
+4. 如果另有 Git Credential Manager 登录窗口，选择自己的账号并完成浏览器授权。可用 `Alt + Tab` 查看是否有登录窗口被遮挡。
+
+`user.name` 和 `user.email` 只记录提交作者。把姓名改成仓库所有者，不能获得该仓库的上传权限。
+
+**第三步：如果总是自动使用旧账号，清理对应的旧 GitHub 凭据。**
+
+Windows 可能记住了以前的 GitHub 登录。仅退出 VS Code，不一定会清掉 Git 使用的缓存。
+
+1. 按 Windows 键，搜索并打开 **凭据管理器 / Credential Manager**。
+2. 选择 **Windows 凭据 → 普通凭据 / Generic Credentials**。
+3. 查找 GitHub 对应的 Git 登录记录，名称可能含 `git:https://github.com` 或 `github.com`。展开并核对账号。
+4. 只对确认属于错误账号或已失效的 GitHub Git 登录记录点击 **删除 / Remove**。这会让相关 Git 操作下次重新登录，不会删除本地文件；其他软件和账号的记录保留。
+5. 重新打开 VS Code 项目，再次发布分支或推送，按浏览器提示登录拥有自己 Fork 的账号。
+6. 如果没有找到对应条目，或同时使用多个账号且无法判断，保留现状，请老师协助核对，不要清空整个凭据管理器。
+
+Git for Windows 包含 Git Credential Manager，可以使用浏览器登录。若安装过旧版 Git 且授权窗口无法正常工作，可从 Git 官方安装包更新后重开 VS Code。
+
+参考：[GitHub 的 Windows 凭据缓存与重置说明](https://docs.github.com/en/get-started/git-basics/caching-your-github-credentials-in-git)。
+
+**第四步：地址和账号都正确，仍被远端拒绝。**
+
+再看完整输出是否包含仓库归档、只读、分支保护、规则编号或其他明确原因，交给老师核对。日志里的中文分支名 `通信2401-申铭清` 本身不能说明失败原因；本课程建议沿用 `student/通信2401-申铭清` 命名，但改名不能代替权限修复。
+
+### 14.3 真正的网络错误：按这个顺序排查
+
+**第一步：检查网页和 GitHub 服务。**
+
+1. 在浏览器打开 [GitHub](https://github.com) 和自己的 Fork。
+2. 如果校园网或 Wi-Fi 要求登录，先完成网络登录，再重试。
+3. 查看 [GitHub Status](https://www.githubstatus.com)。若 Git 操作相关服务正在故障，保留本地提交，等待恢复后重试。
+4. 若状态正常，可以切换到另一条可用网络，例如手机热点，再回到 VS Code 重试一次。换网络后成功，说明应优先检查原网络的访问限制，请老师或网络管理员协助。
+
+**第二步：浏览器正常，VS Code 却连不上。**
+
+浏览器能访问，不代表 Git 使用了相同的网络路径；VS Code 的网页请求、GitHub 扩展和底层 Git 也可能使用不同的代理配置。
+
+1. 先用 `Alt + Tab` 检查 GitHub 登录窗口，完成授权；没有网络错误时，一直等待也可能是在等登录。
+2. 通过 Windows **设置 → 网络和 Internet → 代理**，核对当前网络是否需要代理。不要随意改动学校统一管理的配置。
+3. 如果电脑本来就在使用 HTTP 代理，确认代理程序已启动，并从它的界面查看实际的 **HTTP 代理地址和端口**；浏览器扩展中的代理不一定会自动提供给 Git。
+4. 如需给 Git 单独配置，按第 5.2 节打开当前仓库 `.git/config`，保留已有内容，在 `[http]` 中填写实际地址。没有这个区段才新增：
+
+   ```ini
+   [http]
+       proxy = http://127.0.0.1:替换为实际HTTP代理端口
+   ```
+
+5. 上面是配置格式，**不能原样粘贴占位文字**。请使用当前代理软件或老师提供的完整 HTTP 地址；端口必须来自实际配置，不要猜。如果已有 `[http]`，只修改对应 `proxy` 行。
+6. 保存后在 VS Code 重试。此配置只影响当前仓库；使用期间对应代理必须运行。以后不再需要代理时，删除自己本次新增的 `proxy` 行，或恢复修改前的值。
+7. 如果自己没有使用代理，不要凭空添加。日志出现 `127.0.0.1` 端口连接失败时，先检查是否残留了已关闭的旧代理配置。
+8. 当前仓库里没有旧设置，或配置后仍连接旧代理时，可在 VS Code 按 `Ctrl + O` 打开 `%USERPROFILE%\.gitconfig`，查看用户级的 `[http]` 或 `[http "https://github.com"]` 代理配置。URL 专用配置可能优先于通用的 `[http]` 配置。只恢复自己以前添加、现已不用的条目；若文件不存在，直接跳过，机房统一配置请老师处理。
+
+VS Code 设置里的 `http.proxy` 不应被当作 Git 代理已配置成功的依据。以重新操作后的 **Git 输出**是否成功为准。
+
+**第三步：按具体报错处理，避免反复改无关设置。**
+
+| 报错 | 建议操作 |
+| --- | --- |
+| `Could not resolve host` | 先完成网络登录、切换可用网络；仍失败时请网络管理员检查 DNS。无需为此重建仓库。 |
+| `Failed to connect ... port 443`、超时、连接重置 | 检查网络访问限制和代理；稍后重试，或切换网络对比。 |
+| `Could not resolve proxy`、本机代理端口无法连接 | 确认代理程序正在运行，地址和 HTTP 端口正确；不用代理时恢复自己添加的配置。 |
+| `HTTP/2 stream ...` 或 `curl 92` | 可在本仓库 `.git/config` 的 `[http]` 下设置 `version = HTTP/1.1`；没有该区段才新建，已有该行则修改，保存后重试。这只是 HTTP/2 传输异常的兼容尝试，不能修复权限或 DNS；无效时恢复原值或删除新增行。 |
+| `SSL certificate problem` | 核对 Windows 日期和时间是否正确，更新 Git；学校网络需要专用证书时，请管理员按要求安装可信证书。保持证书验证开启。 |
+
+不必为了修网络改作业文件、重新提交或强制推送，也不要把 `origin` 换成不明下载镜像。网络恢复后，在原个人分支重试“发布分支 / 推送”即可；若曾连接超时，也先到自己 Fork 的对应分支确认是否实际已经上传成功。
+
+参考：[GitHub 网络连接排查](https://docs.github.com/en/get-started/using-github/troubleshooting-connectivity-problems)、[Git HTTP 代理与协议配置](https://git-scm.com/docs/git-config)。
+
+### 14.4 应急交作业：网页正常，但 Git 上传持续失败
+
+如果本次还没有成功创建 PR，而 GitHub 网页可正常使用，可以把最终两个文件上传到**自己的 Fork**，再发起 PR。这个方法依然需要正确账号和仓库写权限，不能绕过权限或仓库规则。
+
+1. 保留本地项目和已经验证的两个文件。
+2. 浏览器打开自己的 Fork，从 `main` 的分支下拉框创建一个新的个人分支，例如 `student/通信2401-申铭清-web`，并确认当前选中的是它。
+3. 先进入网页仓库的 `members` 文件夹，再选择 **Add file → Upload files**，上传自己的 `15.html`（其他同学使用自己的编号）。
+4. 填写提交说明，将文件提交到当前个人分支；核对它确实更新了 `members/15.html`，而不是根目录的同名文件。
+5. 再进入 `submissions` 文件夹，用同样方法上传 `通信2401_申铭清.py`，按所选语言使用对应扩展名，并提交到同一个个人分支。
+6. 检查两个路径和文件内容，然后按第 12 节的浏览器流程，向课程仓库 `UnwrittenJuly/GreenStudio_FinalTest_2026` 的 `main` 发起 PR，来源选择这个带 `-web` 的分支。
+7. 看到课程仓库中的 PR 编号和 Open 状态即完成提交。后续如需补交修改，可以在这个 PR 的同一来源分支继续网页上传。
+
+网页上传会生成新的远程提交，不会自动同步回本地。**使用应急路线后，先不要继续推送原本地作业分支或强制覆盖远程。** 后续回到 VS Code 开发时，可另选目录重新克隆自己的 Fork，切换到 PR 的 `-web` 来源分支继续；原项目保留作备份。
+
+参考：[GitHub 网页上传文件说明](https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository)。
 
 ### 已经误克隆课程仓库并写了作业怎么办
 
